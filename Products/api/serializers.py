@@ -53,3 +53,23 @@ class ProductSubcategorySerializer(ModelSerializer):
         'sub_category_name',
         'product_name',
         ]
+
+#8
+class ProductCreateSerializer(ModelSerializer):
+
+    #main_category = serializers.CharField(source='subcategory.category')
+    #sub_category_name = serializers.CharField(source='subcategory.sub_category')
+    sub_category = serializers.PrimaryKeyRelatedField(read_only=True)
+    class Meta:
+        model = Products
+        fields = [
+        #'main_category',
+        #'sub_category_name',
+        'id','product_name', 'sub_category'
+        ]
+
+    def create(self, validated_data):
+        id_param = validated_data.pop('sub_category')
+        subcategory = Subcategory.objects.get_or_create(id=id_param)[0]
+        product = Menu.objtects.create(resturant_id=resturant.id)
+        return product

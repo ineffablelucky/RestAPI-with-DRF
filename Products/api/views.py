@@ -1,6 +1,9 @@
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView
 from Products.models import Category, Subcategory, Products
-from .serializers import CategorySerializer, SubcategorySerializer,ProductCategorySerializer, ProductSubcategorySerializer
+from .serializers import (
+    CategorySerializer, SubcategorySerializer,
+    ProductCategorySerializer, ProductSubcategorySerializer,
+    ProductCreateSerializer)
 from rest_framework.filters import SearchFilter
 from rest_framework import filters
 from django.db.models import Q
@@ -52,3 +55,16 @@ class ProductSubcategoryListAPIView(ListAPIView):
     queryset = Products.objects.all()
     serializer_class = ProductSubcategorySerializer
     filter_class = ProductSubcategoryFilter
+
+
+#8
+class ProductCreateAPIView(CreateAPIView):
+    queryset = Products.objects.all()
+    serializer_class = ProductCreateSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = ProductCreateSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_400_BAD_REQUEST)

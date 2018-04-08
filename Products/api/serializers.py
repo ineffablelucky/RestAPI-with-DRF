@@ -37,3 +37,18 @@ class ProductCategorySerializer(ModelSerializer):
         'category_name',
         'product_name',
         ]
+
+
+#7
+# to get all sub_category of a category , just run a
+# ''?'' query in url like "?subcategory=sub category 2"
+class ProductSubcategorySerializer(ModelSerializer):
+
+    sub_category_name = serializers.CharField(source='subcategory.sub_category')
+
+    class Meta:
+        model = Products
+        fields = [
+        'sub_category_name',
+        'product_name',
+        ]

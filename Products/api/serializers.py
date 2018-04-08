@@ -56,18 +56,10 @@ class ProductSubcategorySerializer(ModelSerializer):
 
 #8
 class ProductCreateSerializer(ModelSerializer):
-
-    #main_category = serializers.CharField(source='subcategory.category')
+    
     #sub_category_name = serializers.CharField(source='subcategory.sub_category')
     class Meta:
         model = Products
         fields = [
-        #'main_category',
-        #'sub_category_name',
         'product_name', 'subcategory'
         ]
-
-    def create(self, validated_data):
-        # id_param = validated_data.pop('sub_category')
-        product = Products.objects.create()
-        return product

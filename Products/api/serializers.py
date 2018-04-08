@@ -26,24 +26,16 @@ class SubcategorySerializer(ModelSerializer):
         'sub_category',
         ]
 
-
+#6
 class ProductCategorySerializer(ModelSerializer):
 
-    #category_name = serializers.CharField(source='category.main_category')
-    # category_name = CategorySerializer(source='category_set')
-    # class Meta:
-    #     model = Products
-    #     fields = [
-    #     'category_name',
-    #     'product_name',
-    #     ]
-    main_category = serializers.CharField(source='sub_category.category')
-    sub_category = serializers.CharField()
+    main_category = serializers.CharField(source='subcategory.category')
+    #sub_category_name = serializers.CharField(source='subcategory.sub_category')
     class Meta:
         model = Products
         fields = [
         'main_category',
-        'sub_category',
+        #'sub_category_name',
         'product_name',
         ]
 

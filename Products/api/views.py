@@ -26,20 +26,17 @@ class SubcategoryListAPIView(ListAPIView):
     serializer_class = SubcategorySerializer
     filter_class = SubcategoryFilter
 
-
-#6
-class ProductCategoryFilter(django_filters.FilterSet):
-    category = django_filters.CharFilter(name="category__main_category")
-
-    class Meta:
-        model = Products
-        fields = ['category']
-
+#6 NO django filter use in this
 class ProductCategoryListAPIView(ListAPIView):
 
-    queryset = Products.objects.all()
     serializer_class = ProductCategorySerializer
-    filter_class = ProductCategoryFilter
+
+    def get_queryset(self):
+        queryset = Products.objects.all()
+        category = self.request.query_params.get("category", None)
+        if category is not None:
+            queryset = queryset.filter(subcategory__category__main_category__icontains=category)
+        return queryset
 
 
 #7
